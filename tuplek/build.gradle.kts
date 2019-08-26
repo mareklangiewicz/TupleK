@@ -7,7 +7,7 @@ group = "com.github.langara.tuplek"
 version = "0.0.2"
 
 dependencies {
-    implementation(kotlin("stdlib"))
+    implementation(Deps.kotlinStdlib8)
     testImplementation(Deps.junit)
     testImplementation(Deps.uspek)
 }
