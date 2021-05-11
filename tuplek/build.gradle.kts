@@ -1,35 +1,43 @@
 plugins {
+    kotlin("multiplatform") version Vers.kotlin
     `maven-publish`
-    kotlin("jvm")
 }
 
-group = "com.github.langara.tuplek"
-version = "0.0.2"
+group = "pl.mareklangiewicz.tuplek"
+version = "0.0.03"
 
-dependencies {
-    implementation(Deps.kotlinStdlib8)
-    testImplementation(Deps.junit)
-    testImplementation(Deps.uspek)
+repositories {
+    mavenCentral()
+    maven(Repos.jitpack)
 }
 
-// Create sources Jar from main kotlin sources
-val sourcesJar by tasks.creating(Jar::class) {
-    group = JavaBasePlugin.DOCUMENTATION_GROUP
-    description = "Assembles sources JAR"
-    classifier = "sources"
-    from(sourceSets.getByName("main").allSource)
-}
+kotlin {
+    jvm()
+//    js {
+//        browser()
+//    }
+//    linuxX64()
 
-publishing {
-    publications {
-        create("default", MavenPublication::class.java) {
-            from(components.getByName("java"))
-            artifact(sourcesJar)
+    sourceSets {
+        val commonMain by getting
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+            }
+        }
+        val jvmMain by getting
+        val jvmTest by getting {
+            dependencies {
+                implementation(kotlin("test-junit"))
+                implementation(Deps.junit5engine)
+                implementation(Deps.uspek)
+
+            }
         }
     }
-    repositories {
-        maven {
-            url = uri("$buildDir/repository")
-        }
-    }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }

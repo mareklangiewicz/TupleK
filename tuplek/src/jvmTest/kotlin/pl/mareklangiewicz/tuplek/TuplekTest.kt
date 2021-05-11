@@ -1,17 +1,15 @@
 package pl.mareklangiewicz.tuplek
 
-import org.junit.Test
-import org.junit.runner.RunWith
-import pl.mareklangiewicz.uspek.USpekRunner
+import org.junit.jupiter.api.TestFactory
 import pl.mareklangiewicz.uspek.eq
 import pl.mareklangiewicz.uspek.o
-import pl.mareklangiewicz.uspek.uspek
+import pl.mareklangiewicz.uspek.uspekTestFactory
 
 
-@RunWith(USpekRunner::class)
 class TuplekTest {
 
-    @Test fun tuplekTest() = uspek {
+    @TestFactory
+    fun tuplekTest() = uspekTestFactory {
 
         "On Triple" o {
             val triple = Triple("a", "b", 'c')
