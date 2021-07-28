@@ -1,9 +1,9 @@
 @file:Suppress("UnstableApiUsage")
 @file:OptIn(okio.ExperimentalFileSystem::class)
 
-import okio.Path.Companion.toPath
+import okio.Path.Companion.toOkioPath
 
-//gradle.logSomeEventsToFile("my.gradle.log".toPath())
+gradle.logSomeEventsToFile(rootProject.projectDir.toOkioPath() / "my.gradle.log")
 
 pluginManagement {
     includeBuild("../deps.kt")
