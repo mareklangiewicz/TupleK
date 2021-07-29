@@ -18,6 +18,7 @@ kotlin {
 //    }
 //    linuxX64()
 
+    @Suppress("UNUSED_VARIABLE")
     sourceSets {
         val commonMain by getting
         val commonTest by getting {
@@ -31,8 +32,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-junit"))
                 implementation(Deps.junit5engine)
-                implementation(Deps.uspek)
-
+                implementation(Deps.uspekx)
             }
         }
     }
