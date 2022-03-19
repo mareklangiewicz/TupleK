@@ -16,18 +16,3 @@ Stolen from Jesse Wilson gist:
         println("a" to "b" tre "c" fo "d" fi "e" sik "f" seva "g")
     }
 ```
-
-[![](https://jitpack.io/v/langara/TupleK.svg)](https://jitpack.io/#langara/TupleK)
-
-### Building with JitPack
-```gradle
-    repositories {
-        maven { url "https://jitpack.io" }
-    }
-   
-    dependencies {
-        testImplementation 'com.github.langara:TupleK:master-SNAPSHOT'
-    }
-```
-
-details: https://jitpack.io/#langara/TupleK

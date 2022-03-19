@@ -1,24 +1,23 @@
+@file:Suppress("UNUSED_VARIABLE")
+
+import org.jetbrains.kotlin.gradle.dsl.*
+import pl.mareklangiewicz.defaults.*
+
 plugins {
-    kotlin("multiplatform")
+    kotlin("multiplatform") version vers.kotlin
     id("maven-publish")
+    id("signing")
 }
 
-group = "pl.mareklangiewicz.tuplek"
-version = "0.0.04"
+defaultGroupAndVerAndDescription(libs.TupleK)
 
-repositories {
-    mavenCentral()
-    maven(Repos.jitpack)
-}
+repositories { defaultRepos(withGoogle = false) }
 
 kotlin {
     jvm()
-//    js {
-//        browser()
-//    }
-//    linuxX64()
+    jsDefault()
+    linuxX64()
 
-    @Suppress("UNUSED_VARIABLE")
     sourceSets {
         val commonMain by getting
         val commonTest by getting {
@@ -31,8 +30,8 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
-                implementation(Deps.junit5engine)
-                implementation(Deps.uspekx)
+                implementation(deps.junit5engine)
+                implementation(deps.uspekx)
             }
         }
     }
@@ -41,3 +40,34 @@ kotlin {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+
+defaultPublishing(libs.TupleK)
+
+defaultSigning()
+
+// TODO NOW: injecting (like Andro Build Template)
+// region Kotlin Multi Template
+
+fun KotlinMultiplatformExtension.jsDefault(
+    withBrowser: Boolean = true,
+    withNode: Boolean = false,
+    testWithChrome: Boolean = true,
+    testHeadless: Boolean = true,
+) {
+    js(IR) {
+        if (withBrowser) browser {
+            testTask {
+                useKarma {
+                    when (testWithChrome to testHeadless) {
+                        true to true -> useChromeHeadless()
+                        true to false -> useChrome()
+                    }
+                }
+            }
+        }
+        if (withNode) nodejs()
+    }
+}
+
+// endregion Kotlin Multi Template
