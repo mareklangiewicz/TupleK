@@ -13,6 +13,7 @@ defaultSonatypeOssStuffFromSystemEnvs()
 
 
 private val rootBuild = rootProjectPath / "build.gradle.kts"
+private val tuplekModuleBuild = rootProjectPath / "tuplek" / "build.gradle.kts"
 
 tasks.registerAllThatGroupFun("inject",
     ::checkTemplates,
@@ -21,10 +22,14 @@ tasks.registerAllThatGroupFun("inject",
 
 fun checkTemplates() {
     checkRootBuildTemplate(rootBuild)
+    checkKotlinModuleBuildTemplates(tuplekModuleBuild)
+    checkMppModuleBuildTemplates(tuplekModuleBuild)
 }
 
 fun injectTemplates() {
     injectRootBuildTemplate(rootBuild)
+    injectKotlinModuleBuildTemplate(tuplekModuleBuild)
+    injectMppModuleBuildTemplate(tuplekModuleBuild)
 }
 
 
