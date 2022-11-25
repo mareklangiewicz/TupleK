@@ -4,7 +4,6 @@ import pl.mareklangiewicz.utils.*
 
 plugins {
     id("io.github.gradle-nexus.publish-plugin") version vers.nexusPublishGradlePlugin
-    kotlin("multiplatform") version vers.kotlin apply false
 }
 
 defaultGroupAndVerAndDescription(libs.TupleK)
@@ -12,26 +11,9 @@ defaultGroupAndVerAndDescription(libs.TupleK)
 defaultSonatypeOssStuffFromSystemEnvs()
 
 
-private val rootBuild = rootProjectPath / "build.gradle.kts"
-private val tuplekModuleBuild = rootProjectPath / "tuplek" / "build.gradle.kts"
-
-tasks.registerAllThatGroupFun("inject",
-    ::checkTemplates,
-    ::injectTemplates,
-)
-
-fun checkTemplates() {
-    checkRootBuildTemplate(rootBuild)
-    checkKotlinModuleBuildTemplates(tuplekModuleBuild)
-    checkMppModuleBuildTemplates(tuplekModuleBuild)
-}
-
-fun injectTemplates() {
-    injectRootBuildTemplate(rootBuild)
-    injectKotlinModuleBuildTemplate(tuplekModuleBuild)
-    injectMppModuleBuildTemplate(tuplekModuleBuild)
-}
-
+tasks.registerAllThatGroupFun("inject", ::checkTemplates, ::injectTemplates)
+fun checkTemplates() = checkAllKnownRegionsInProject()
+fun injectTemplates() = injectAllKnownRegionsInProject()
 
 // region [Root Build Template]
 
@@ -39,7 +21,7 @@ fun injectTemplates() {
  * System.getenv() should contain six env variables with given prefix, like:
  * * MYKOTLIBS_signing_keyId
  * * MYKOTLIBS_signing_password
- * * MYKOTLIBS_signing_key
+ * * MYKOTLIBS_signing_keyFile
  * * MYKOTLIBS_ossrhUsername
  * * MYKOTLIBS_ossrhPassword
  * * MYKOTLIBS_sonatypeStagingProfileId
@@ -57,7 +39,7 @@ fun Project.defaultSonatypeOssNexusPublishing(
     ossrhPassword: String = rootExt("ossrhPassword"),
 ) = nexusPublishing {
     repositories {
-        sonatype {  //only for users registered in Sonatype after 24 Feb 2021
+        sonatype {  // only for users registered in Sonatype after 24 Feb 2021
             stagingProfileId put sonatypeStagingProfileId
             username put ossrhUsername
             password put ossrhPassword
