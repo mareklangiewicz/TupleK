@@ -6,7 +6,7 @@ import pl.mareklangiewicz.evts.*
 //gradle.logSomeEventsToFile(rootProject.projectDir.toOkioPath() / "my.gradle.log")
 
 pluginManagement {
-    includeBuild("../deps.kt")
+    includeBuild("../DepsKt")
     repositories {
         google()
         mavenCentral()
