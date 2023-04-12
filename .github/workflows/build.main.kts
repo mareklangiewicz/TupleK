@@ -41,11 +41,18 @@ workflow(
         ) {
             uses(CheckoutV3())
             setupJava()
+            val myEnv = listOf(
+                "signing_keyId", "signing_password", "signing_key",
+                "ossrhUsername", "ossrhPassword", "sonatypeStagingProfileId"
+            )
+                .map { "MYKOTLIBS_$it" }
+                .associateWith { expr("secrets.$it") } as LinkedHashMap<String, String>
             uses(
                 name = "Build",
                 action = GradleBuildActionV2(
                     arguments = "build",
-                )
+                ),
+                env = myEnv,
             )
         }
     }
