@@ -6,7 +6,7 @@ import pl.mareklangiewicz.evts.*
 //gradle.logSomeEventsToFile(rootProject.projectDir.toOkioPath() / "my.gradle.log")
 
 pluginManagement {
-    includeBuild("../DepsKt")
+//    includeBuild("../DepsKt")
     repositories {
         google()
         mavenCentral()
@@ -15,7 +15,7 @@ pluginManagement {
 }
 
 plugins {
-    id("pl.mareklangiewicz.deps.settings")
+    id("pl.mareklangiewicz.deps.settings") version "0.0.25"
 }
 
 include(":tuplek")
