@@ -5,6 +5,9 @@ import io.github.typesafegithub.workflows.actions.actions.SetupJavaV3
 import io.github.typesafegithub.workflows.dsl.expressions.expr
 import io.github.typesafegithub.workflows.dsl.JobBuilder
 
+// Warning: Might need to clean cache after changing shared file
+//   ~/.cache$ rm -rf main.kts.compiled.cache/
+
 fun JobBuilder<*>.setupJava() =
     uses(
         name = "Set up JDK",
