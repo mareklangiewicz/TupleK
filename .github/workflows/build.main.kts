@@ -14,6 +14,8 @@ import io.github.typesafegithub.workflows.yaml.writeToFile
 
 // Warning: Might need to clean cache after changing file
 //   ~/.cache$ rm -rf main.kts.compiled.cache/
+//   update: it looks like it's a problem only when changing sth imported like:
+//   github-workflows-kt/.github/workflows/release.main.kts:@file:Import("_shared.main.kts")
 
 fun JobBuilder<*>.setupJava() =
     uses(
