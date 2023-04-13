@@ -13,7 +13,7 @@ plugins {
 }
 
 defaultBuildTemplateForMppLib(
-    details = libs.TupleK,
+    details = libs.TupleK.copy(version = v(0, 0, 7)),
     withNativeLinux64 = true,
 )
 
