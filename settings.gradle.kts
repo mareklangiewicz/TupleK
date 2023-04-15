@@ -15,7 +15,7 @@ pluginManagement {
 }
 
 plugins {
-    id("pl.mareklangiewicz.deps.settings") version "0.2.27"
+    id("pl.mareklangiewicz.deps.settings") version "0.2.31"
 }
 
 include(":tuplek")
