@@ -12,10 +12,7 @@ plugins {
     id("signing")
 }
 
-defaultBuildTemplateForMppLib(
-    details = libs.TupleK.copy(version = v(0, 0, 7)),
-    withNativeLinux64 = true,
-)
+defaultBuildTemplateForMppLib(withNativeLinux64 = true)
 
 // region [Kotlin Module Build Template]
 

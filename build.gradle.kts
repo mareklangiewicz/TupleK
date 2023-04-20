@@ -1,5 +1,6 @@
 import pl.mareklangiewicz.defaults.*
 import pl.mareklangiewicz.deps.LibDetails
+import pl.mareklangiewicz.deps.langaraLibDetails
 import pl.mareklangiewicz.ure.*
 import pl.mareklangiewicz.utils.*
 
@@ -8,7 +9,14 @@ plugins {
     kotlin("multiplatform") version vers.kotlin apply false
 }
 
-defaultBuildTemplateForRootProject(libs.TupleK)
+defaultBuildTemplateForRootProject(
+    langaraLibDetails(
+        name = "TupleK",
+        version = Ver("0.0.08"),
+        description = "Tiny tuples lib for Kotlin with cool infix syntax.",
+        githubUrl = "https://github.com/langara/TupleK",
+    )
+)
 
 // region [Root Build Template]
 
