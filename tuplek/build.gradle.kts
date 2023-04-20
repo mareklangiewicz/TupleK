@@ -155,7 +155,7 @@ fun TaskContainer.withSignErrorWorkaround() =
 
 /** Only for very standard small libs. In most cases it's better to not use this function. */
 fun Project.defaultBuildTemplateForMppLib(
-    details: LibDetails = libs.Unknown,
+    details: LibDetails = rootExtLibDetails,
     withJvm: Boolean = true,
     withJs: Boolean = true,
     withNativeLinux64: Boolean = false,
