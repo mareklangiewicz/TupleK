@@ -1,18 +1,17 @@
 import pl.mareklangiewicz.defaults.*
-import pl.mareklangiewicz.deps.LibDetails
-import pl.mareklangiewicz.deps.langaraLibDetails
+import pl.mareklangiewicz.deps.*
 import pl.mareklangiewicz.ure.*
 import pl.mareklangiewicz.utils.*
 
 plugins {
-    id("io.github.gradle-nexus.publish-plugin") version vers.nexusPublishGradlePlugin
-    kotlin("multiplatform") version vers.kotlin apply false
+    plug(plugs.NexusPublish)
+    plug(plugs.KotlinMulti) apply false
 }
 
 defaultBuildTemplateForRootProject(
     langaraLibDetails(
         name = "TupleK",
-        version = Ver("0.0.08"),
+        version = Ver(0, 0, 9),
         description = "Tiny tuples lib for Kotlin with cool infix syntax.",
         githubUrl = "https://github.com/langara/TupleK",
     )
@@ -65,8 +64,8 @@ fun Project.defaultSonatypeOssNexusPublishing(
                 stagingProfileId put sonatypeStagingProfileId
                 username put ossrhUsername
                 password put ossrhPassword
-                nexusUrl put uri(repos.sonatypeOssNexus)
-                snapshotRepositoryUrl put uri(repos.sonatypeOssSnapshots)
+                nexusUrl put repos.sonatypeOssNexus
+                snapshotRepositoryUrl put repos.sonatypeOssSnapshots
             }
         }
     }

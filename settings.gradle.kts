@@ -1,7 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
 import okio.Path.Companion.toOkioPath
-import pl.mareklangiewicz.evts.*
+import pl.mareklangiewicz.deps.*
 
 //gradle.logSomeEventsToFile(rootProject.projectDir.toOkioPath() / "my.gradle.log")
 
@@ -15,7 +15,7 @@ pluginManagement {
 }
 
 plugins {
-    id("pl.mareklangiewicz.deps.settings") version "0.2.32"
+    id("pl.mareklangiewicz.deps.settings") version "0.2.33"
 }
 
 include(":tuplek")
