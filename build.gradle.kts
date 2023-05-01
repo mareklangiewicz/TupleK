@@ -11,7 +11,7 @@ plugins {
 defaultBuildTemplateForRootProject(
     langaraLibDetails(
         name = "TupleK",
-        version = Ver(0, 0, 9),
+        version = Ver(0, 0, 10),
         description = "Tiny tuples lib for Kotlin with cool infix syntax.",
         githubUrl = "https://github.com/langara/TupleK",
     )
