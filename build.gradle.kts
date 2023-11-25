@@ -10,10 +10,11 @@ plugins {
 defaultBuildTemplateForRootProject(
     langaraLibDetails(
         name = "TupleK",
-        version = Ver(0, 0, 11),
+        version = Ver(0, 0, 12),
         description = "Tiny tuples lib for Kotlin with cool infix syntax.",
         githubUrl = "https://github.com/langara/TupleK",
-    )
+    ),
+    withSonatypeOssPublishing = true,
 )
 
 // region [Root Build Template]
