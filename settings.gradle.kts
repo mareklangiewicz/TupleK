@@ -15,7 +15,7 @@ pluginManagement {
 }
 
 plugins {
-    id("pl.mareklangiewicz.deps.settings") version "0.2.40"
+    id("pl.mareklangiewicz.deps.settings") version "0.2.61" // https://plugins.gradle.org/search?term=mareklangiewicz
 }
 
 include(":tuplek")

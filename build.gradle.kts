@@ -1,6 +1,5 @@
 import pl.mareklangiewicz.defaults.*
 import pl.mareklangiewicz.deps.*
-import pl.mareklangiewicz.ure.*
 import pl.mareklangiewicz.utils.*
 
 plugins {
@@ -11,7 +10,7 @@ plugins {
 defaultBuildTemplateForRootProject(
     langaraLibDetails(
         name = "TupleK",
-        version = Ver(0, 0, 10),
+        version = Ver(0, 0, 11),
         description = "Tiny tuples lib for Kotlin with cool infix syntax.",
         githubUrl = "https://github.com/langara/TupleK",
     )
