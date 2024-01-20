@@ -3,6 +3,7 @@
 my.gradle.log
 /local.properties
 /.idea
+/.kotlin
 .DS_Store
 /build
 /captures

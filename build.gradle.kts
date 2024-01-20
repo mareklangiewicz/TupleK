@@ -7,29 +7,35 @@ plugins {
     plug(plugs.KotlinMulti) apply false
 }
 
+val enableJs = true
+val enableNative = true
+
 defaultBuildTemplateForRootProject(
     langaraLibDetails(
         name = "TupleK",
-        version = Ver(0, 0, 12),
         description = "Tiny tuples lib for Kotlin with cool infix syntax.",
-        githubUrl = "https://github.com/langara/TupleK",
+        githubUrl = "https://github.com/mareklangiewicz/TupleK",
+        version = Ver(0, 0, 13),
+        // https://s01.oss.sonatype.org/content/repositories/releases/pl/mareklangiewicz/tuplek/
+        // https://github.com/mareklangiewicz/TupleK/releases
+        settings = LibSettings(
+            withJs = enableJs,
+            withNativeLinux64 = enableNative,
+            compose = null,
+            withSonatypeOssPublishing = true,
+        ),
     ),
-    withSonatypeOssPublishing = true,
 )
 
 // region [Root Build Template]
 
 /** Publishing to Sonatype OSSRH has to be explicitly allowed here, by setting withSonatypeOssPublishing to true. */
-fun Project.defaultBuildTemplateForRootProject(
-    libDetails: LibDetails? = null,
-    withSonatypeOssPublishing: Boolean = false
-) {
-    check(libDetails != null || !withSonatypeOssPublishing)
+fun Project.defaultBuildTemplateForRootProject(details: LibDetails? = null) {
     ext.addDefaultStuffFromSystemEnvs()
-    libDetails?.let {
+    details?.let {
         rootExtLibDetails = it
         defaultGroupAndVerAndDescription(it)
-        if (withSonatypeOssPublishing) defaultSonatypeOssNexusPublishing()
+        if (it.settings.withSonatypeOssPublishing) defaultSonatypeOssNexusPublishing()
     }
 
     // kinda workaround for kinda issue with kotlin native
