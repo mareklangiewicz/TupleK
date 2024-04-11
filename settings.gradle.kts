@@ -1,7 +1,6 @@
-
 rootProject.name = "TupleK"
 
-//gradle.logSomeEventsToFile(rootProject.projectDir.toOkioPath() / "my.gradle.log")
+// gradle.logSomeEventsToFile(rootProject.projectDir.toOkioPath() / "my.gradle.log")
 
 pluginManagement {
 //    includeBuild("../DepsKt")

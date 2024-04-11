@@ -10,7 +10,7 @@ data class Quad<out A, out B, out C, out D>(
     val a: A,
     val b: B,
     val c: C,
-    val d: D
+    val d: D,
 )
 
 data class Jackson<out A, out B, out C, out D, out E>(
@@ -18,7 +18,7 @@ data class Jackson<out A, out B, out C, out D, out E>(
     val b: B,
     val c: C,
     val d: D,
-    val e: E
+    val e: E,
 )
 
 data class Rainbow<out A, out B, out C, out D, out E, out F>(
@@ -27,7 +27,7 @@ data class Rainbow<out A, out B, out C, out D, out E, out F>(
     val c: C,
     val d: D,
     val e: E,
-    val f: F
+    val f: F,
 )
 
 data class Lucky<out A, out B, out C, out D, out E, out F, out G>(
@@ -37,5 +37,5 @@ data class Lucky<out A, out B, out C, out D, out E, out F, out G>(
     val d: D,
     val e: E,
     val f: F,
-    val g: G
+    val g: G,
 )

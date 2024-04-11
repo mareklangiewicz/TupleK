@@ -3,28 +3,28 @@ import pl.mareklangiewicz.deps.*
 import pl.mareklangiewicz.utils.*
 
 plugins {
-    plug(plugs.NexusPublish)
-    plug(plugs.KotlinMulti) apply false
+  plug(plugs.NexusPublish)
+  plug(plugs.KotlinMulti) apply false
 }
 
 val enableJs = true
 val enableNative = true
 
 defaultBuildTemplateForRootProject(
-    langaraLibDetails(
-        name = "TupleK",
-        description = "Tiny tuples lib for Kotlin with cool infix syntax.",
-        githubUrl = "https://github.com/mareklangiewicz/TupleK",
-        version = Ver(0, 0, 14),
-        // https://s01.oss.sonatype.org/content/repositories/releases/pl/mareklangiewicz/tuplek/
-        // https://github.com/mareklangiewicz/TupleK/releases
-        settings = LibSettings(
-            withJs = enableJs,
-            withNativeLinux64 = enableNative,
-            compose = null,
-            withSonatypeOssPublishing = true,
-        ),
+  langaraLibDetails(
+    name = "TupleK",
+    description = "Tiny tuples lib for Kotlin with cool infix syntax.",
+    githubUrl = "https://github.com/mareklangiewicz/TupleK",
+    version = Ver(0, 0, 14),
+    // https://s01.oss.sonatype.org/content/repositories/releases/pl/mareklangiewicz/tuplek/
+    // https://github.com/mareklangiewicz/TupleK/releases
+    settings = LibSettings(
+      withJs = enableJs,
+      withNativeLinux64 = enableNative,
+      compose = null,
+      withSonatypeOssPublishing = true,
     ),
+  ),
 )
 
 // region [Root Build Template]
