@@ -11,11 +11,11 @@ val enableJs = true
 val enableNative = true
 
 defaultBuildTemplateForRootProject(
-  langaraLibDetails(
+  myLibDetails(
     name = "TupleK",
     description = "Tiny tuples lib for Kotlin with cool infix syntax.",
     githubUrl = "https://github.com/mareklangiewicz/TupleK",
-    version = Ver(0, 0, 14),
+    version = Ver(0, 0, 15),
     // https://s01.oss.sonatype.org/content/repositories/releases/pl/mareklangiewicz/tuplek/
     // https://github.com/mareklangiewicz/TupleK/releases
     settings = LibSettings(
@@ -27,7 +27,7 @@ defaultBuildTemplateForRootProject(
   ),
 )
 
-// region [Root Build Template]
+// region [[Root Build Template]]
 
 /** Publishing to Sonatype OSSRH has to be explicitly allowed here, by setting withSonatypeOssPublishing to true. */
 fun Project.defaultBuildTemplateForRootProject(details: LibDetails? = null) {
@@ -75,4 +75,4 @@ fun Project.defaultSonatypeOssNexusPublishing(
   }
 }
 
-// endregion [Root Build Template]
+// endregion [[Root Build Template]]
