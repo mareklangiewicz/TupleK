@@ -1,10 +1,10 @@
 package pl.mareklangiewicz.tuplek
 
 import org.junit.jupiter.api.TestFactory
-import pl.mareklangiewicz.uspek.eq
 import pl.mareklangiewicz.uspek.o
 import pl.mareklangiewicz.uspek.uspekTestFactory
 
+internal infix fun Any?.eq(expected: Any?) = check(this == expected) { "TEST FAIL: $this != $expected" }
 
 class TuplekTest {
 
