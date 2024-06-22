@@ -15,7 +15,7 @@ defaultBuildTemplateForRootProject(
     name = "TupleK",
     description = "Tiny tuples lib for Kotlin with cool infix syntax.",
     githubUrl = "https://github.com/mareklangiewicz/TupleK",
-    version = Ver(0, 0, 16),
+    version = Ver(0, 0, 17),
     // https://s01.oss.sonatype.org/content/repositories/releases/pl/mareklangiewicz/tuplek/
     // https://github.com/mareklangiewicz/TupleK/releases
     settings = LibSettings(
