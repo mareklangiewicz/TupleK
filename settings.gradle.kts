@@ -1,3 +1,7 @@
+@file:Suppress("UnstableApiUsage")
+
+import pl.mareklangiewicz.deps.*
+import pl.mareklangiewicz.utils.extLib
 
 rootProject.name = "TupleK"
 
@@ -34,7 +38,7 @@ pluginManagement {
 }
 
 plugins {
-  id("pl.mareklangiewicz.deps.settings") version "0.4.27" // https://plugins.gradle.org/search?term=mareklangiewicz
+  id("pl.mareklangiewicz.deps.settings") version "0.4.28" // https://plugins.gradle.org/search?term=mareklangiewicz
   id("com.gradle.develocity") version "4.5.1" // https://docs.gradle.com/develocity/gradle-plugin/
 }
 
@@ -47,5 +51,26 @@ develocity {
 }
 
 // endregion [[My Settings Stuff]]
+
+val enableJs = true
+val enableNative = true
+
+gradle.extLib = lib(
+  info = myLibInfo(
+    name = "TupleK",
+    description = "Tiny tuples lib for Kotlin with cool infix syntax.",
+    githubUrl = "https://github.com/mareklangiewicz/TupleK",
+    version = Ver(0, 0, 22),
+    // https://s01.oss.sonatype.org/content/repositories/releases/pl/mareklangiewicz/tuplek/
+    // https://github.com/mareklangiewicz/TupleK/releases
+  ),
+  flags = LibFlags(
+    withJs = enableJs,
+    withLinuxX64 = enableNative,
+    withCentralPublish = true,
+  ),
+  withCompose = false,
+  // andro is absent by default
+)
 
 include(":tuplek")

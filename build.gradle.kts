@@ -1,41 +1,22 @@
+
+// region [[Basic Root Build Imports and Plugs]]
+
 import pl.mareklangiewicz.defaults.*
-import pl.mareklangiewicz.deps.*
 import pl.mareklangiewicz.utils.*
+import pl.mareklangiewicz.deps.*
+import pl.mareklangiewicz.templatefun.*
 
 plugins {
+  id("pl.mareklangiewicz.templatefun") version "0.4.28" apply false // https://plugins.gradle.org/search?term=mareklangiewicz
   plug(plugs.KotlinMulti) apply false
+
+  // Resolve the publish plugin ONCE here, with its version. Without this the only source of
+  // it is the templatefun plugin's own classpath (templatefun depends on it), which Gradle sees as
+  // "unknown version" -- and then a versioned request in a subproject cannot be checked
+  // against it.
+  plug(plugs.VannikPublish) apply false
 }
 
-val enableJs = true
-val enableNative = true
+// endregion [[Basic Root Build Imports and Plugs]]
 
-defaultBuildTemplateForRootProject(
-  lib(
-    myLibInfo(
-      name = "TupleK",
-      description = "Tiny tuples lib for Kotlin with cool infix syntax.",
-      githubUrl = "https://github.com/mareklangiewicz/TupleK",
-      version = Ver(0, 0, 22),
-      // https://s01.oss.sonatype.org/content/repositories/releases/pl/mareklangiewicz/tuplek/
-      // https://github.com/mareklangiewicz/TupleK/releases
-    ),
-    flags = LibFlags(
-      withJs = enableJs,
-      withLinuxX64 = enableNative,
-      withCentralPublish = true,
-    ),
-    // The nested model said `compose = null`; presence is now a flag on the factory.
-    withCompose = false,
-  ),
-)
-
-// region [[Root Build Template]]
-
-fun Project.defaultBuildTemplateForRootProject(lib: Lib? = null) {
-  lib?.let {
-    rootExtLib = it
-    defaultGroupAndVerAndDescription(it)
-  }
-}
-
-// endregion [[Root Build Template]]
+defaultGroupAndVerAndDescription(gradle.extLib)
