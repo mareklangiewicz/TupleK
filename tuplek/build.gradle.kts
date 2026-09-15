@@ -44,7 +44,7 @@ fun Project.setMyWeirdSubstitutions(
   }
 }
 
-fun RepositoryHandler.addRepos(settings: LibReposSettings) = with(settings) {
+fun RepositoryHandler.addRepos(libRepos: LibRepos) = with(libRepos) {
   @Suppress("DEPRECATION")
   if (withMavenLocal) mavenLocal()
   if (withMavenCentral) mavenCentral()
@@ -87,34 +87,34 @@ fun TaskCollection<Task>.defaultTestsOptions(
 }
 
 // Provide artifacts information requited by Maven Central
-fun MavenPom.defaultPOM(lib: LibDetails) {
-  name put lib.name
-  description put lib.description
-  url put lib.githubUrl
+fun MavenPom.defaultPOM(lib: Lib) {
+  name put lib.info.name
+  description put lib.info.description
+  url put lib.info.githubUrl
 
   licenses {
     license {
-      name put lib.licenceName
-      url put lib.licenceUrl
+      name put lib.info.licenceName
+      url put lib.info.licenceUrl
     }
   }
   developers {
     developer {
-      id put lib.authorId
-      name put lib.authorName
-      email put lib.authorEmail
+      id put lib.info.authorId
+      name put lib.info.authorName
+      email put lib.info.authorEmail
     }
   }
-  scm { url put lib.githubUrl }
+  scm { url put lib.info.githubUrl }
 }
 
-fun Project.defaultPublishing(lib: LibDetails) = extensions.configure<MavenPublishBaseExtension> {
+fun Project.defaultPublishing(lib: Lib) = extensions.configure<MavenPublishBaseExtension> {
   propertiesTryOverride("signingInMemoryKey", "signingInMemoryKeyPassword", "mavenCentralPassword")
-  if (lib.settings.withCentralPublish) publishToMavenCentral(automaticRelease = false)
+  if (lib.flags.withCentralPublish) publishToMavenCentral(automaticRelease = false)
   signAllPublications()
   signAllPublicationsFixSignatoryIfFound()
   // Note: artifactId is not lib.name but current project.name (module name)
-  coordinates(groupId = lib.group, artifactId = name, version = lib.version.str)
+  coordinates(groupId = lib.info.group, artifactId = name, version = lib.info.version.str)
   pom { defaultPOM(lib) }
 }
 
@@ -128,23 +128,25 @@ fun Project.defaultPublishing(lib: LibDetails) = extensions.configure<MavenPubli
  * These ignoreXXX flags are hacky, but needed. see [allDefault] kdoc for details.
  */
 fun Project.defaultBuildTemplateForBasicMppLib(
-  details: LibDetails = rootExtLibDetails,
+  lib: Lib = rootExtLib,
   ignoreCompose: Boolean = false, // so user have to explicitly say THAT he wants to ignore compose settings here.
   ignoreAndroTarget: Boolean = false, // so user have to explicitly say IF he wants to ignore it.
   ignoreAndroConfig: Boolean = false, // so user have to explicitly say THAT he wants to ignore it.
   ignoreAndroPublish: Boolean = false, // so user have to explicitly say THAT he wants to ignore it.
   addCommonMainDependencies: KotlinDependencyHandler.() -> Unit = {},
 ) {
-  require(ignoreCompose || details.settings.compose == null) { "defaultBuildTemplateForBasicMppLib can not configure compose stuff" }
-  details.settings.andro?.let {
+  require(ignoreCompose || lib.compose == null) { "defaultBuildTemplateForBasicMppLib can not configure compose stuff" }
+  lib.andro?.let {
     require(ignoreAndroConfig) { "defaultBuildTemplateForBasicMppLib can not configure android stuff (besides just adding target)" }
     require(ignoreAndroPublish || it.publishNoVariants) { "defaultBuildTemplateForBasicMppLib can not publish android stuff YET" }
   }
-  repositories { addRepos(details.settings.repos) }
-  defaultGroupAndVerAndDescription(details)
+  repositories { addRepos(lib.repos) }
+  defaultGroupAndVerAndDescription(lib)
   extensions.configure<KotlinMultiplatformExtension> {
     allDefault(
-      settings = details.settings,
+      flags = lib.flags,
+      compose = lib.compose,
+      andro = lib.andro,
       ignoreCompose = ignoreCompose,
       ignoreAndroTarget = ignoreAndroTarget,
       ignoreAndroConfig = ignoreAndroConfig,
@@ -154,8 +156,8 @@ fun Project.defaultBuildTemplateForBasicMppLib(
   }
   configurations.checkVerSync(warnOnly = true)
   tasks.defaultKotlinCompileOptions(jvmTargetVer = null) // jvmVer is set in fun allDefault using jvmToolchain
-  tasks.defaultTestsOptions(onJvmUseJUnitPlatform = details.settings.withTestJUnit5)
-  if (plugins.hasPlugin("com.vanniktech.maven.publish")) defaultPublishing(details)
+  tasks.defaultTestsOptions(onJvmUseJUnitPlatform = lib.flags.withTestJUnit5)
+  if (plugins.hasPlugin("com.vanniktech.maven.publish")) defaultPublishing(lib)
   else println("MPP Module ${name}: publishing (and signing) disabled")
 }
 
@@ -170,13 +172,15 @@ fun Project.defaultBuildTemplateForBasicMppLib(
  * https://youtrack.jetbrains.com/issue/KT-60623/Deprecate-publishAllLibraryVariants-in-kotlin-android
  */
 fun KotlinMultiplatformExtension.allDefault(
-  settings: LibSettings,
+  flags: LibFlags,
+  compose: LibCompose?,
+  andro: LibAndro?,
   ignoreCompose: Boolean = false, // so user have to explicitly say THAT he wants to ignore compose settings here.
   ignoreAndroTarget: Boolean = false, // so user have to explicitly say IF he wants to ignore it.
   ignoreAndroConfig: Boolean = false, // so user have to explicitly say THAT he wants to ignore it.
   ignoreAndroPublish: Boolean = false, // so user have to explicitly say THAT he wants to ignore it.
   addCommonMainDependencies: KotlinDependencyHandler.() -> Unit = {},
-) = with(settings) {
+) = with(flags) {
   require(ignoreCompose || compose == null) { "allDefault can not configure compose stuff" }
   andro?.let {
     require(ignoreAndroConfig) { "allDefault can not configure android stuff (besides just adding target)" }
@@ -185,7 +189,7 @@ fun KotlinMultiplatformExtension.allDefault(
   if (withJvm) jvm()
   if (withJs) jsDefault()
   if (withLinuxX64) linuxX64()
-  if (withAndro && !ignoreAndroTarget) androidTarget {
+  if (andro != null && !ignoreAndroTarget) androidTarget {
     // TODO_someday some kmp andro publishing. See kdoc above why not yet.
   }
   withJvmVer?.let { jvmToolchain(it.toInt()) } // works for jvm and android
